@@ -23,6 +23,8 @@ class Serie extends Media
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
+
+        parent::__construct();
     }
 
     /**

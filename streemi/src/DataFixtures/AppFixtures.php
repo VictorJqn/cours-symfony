@@ -24,6 +24,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $this->getCategories($manager);
         $this->getLanguages($manager);
         $this->getMovies($manager);
         $this->getSeries($manager);
@@ -36,20 +37,39 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    public function getCategories(ObjectManager $manager): array
+{
+    $category = new Category();
+    $category->setName('aventure');
+    $category->setLabel('Aventure');
+    $manager->persist($category);
+
+    $category2 = new Category();
+    $category2->setName('action');
+    $category2->setLabel('Action');
+    $manager->persist($category2);
+
+    $category3 = new Category();
+    $category3->setName('Comédie');
+    $category3->setLabel('Comédie');
+    $manager->persist($category3);
+
+    $category4 = new Category();
+    $category4->setName('Science-fiction');
+    $category4->setLabel('Science-fiction');
+    $manager->persist($category4);
+
+    // Sauvegarder les catégories dans la base de données
+    $manager->flush();
+
+    // Retourner les catégories
+    return [$category, $category2, $category3, $category4];
+}
+
     public function getLanguages(ObjectManager $manager): void
     {
         // $product = new Product();
         // $manager->persist($product);
-
-        $category = new Category();
-        $category->setName('aventure');
-        $category->setLabel('Aventure');
-        $manager->persist($category);
-
-        $category2 = new Category();
-        $category2->setName('action');
-        $category2->setLabel('Action');
-        $manager->persist($category2);
 
         $languageObjects = [];
 
@@ -90,15 +110,18 @@ class AppFixtures extends Fixture
 
     public function getMovies(ObjectManager $manager): array
     {
+
+        $categories = $this->getCategories($manager);
+
         #Create array of 10 movies 
 
         $movies = [
-            ['title' => 'Star Wars', 'short_description' => 'Star Wars: The Force Awakens', 'long_description' => 'The Force Awakens is a 2015 sci-fi action film directed by George Lucas and written by Doug McKeithan, Hugh Hawking, and Ben Kubrick. It is the sequel to Star Wars: The Empire Strikes Back, and the sequel to Star Wars: The Force Awakens.', 'cover_image' => 'starwars.jpg', 'release_date' => '1998-05-25', 'language' => 'FR'],
-            ['title' => 'The Matrix', 'short_description' => 'The Matrix', 'long_description' => 'The Matrix is a 1999 science fiction action film written and directed by the Wachowskis, starring Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving, and Joe Pantoliano.', 'cover_image' => 'matrix.jpg', 'release_date' => '1999-03-31', 'language' => 'EN'],
-            ['title' => 'The Lord of the Rings', 'short_description' => 'The Lord of the Rings', 'long_description' => 'The Lord of the Rings is a film series of three epic fantasy adventure films directed by Peter Jackson, based on the novel written by J. R. R. Tolkien.', 'cover_image' => 'lordoftherings.jpg', 'release_date' => '2001-12-19', 'language' => 'EN'],
-            ['title' => 'Harry Potter', 'short_description' => 'Harry Potter', 'long_description' => 'Harry Potter is a British-American film series based on the eponymous novels by author J. K. Rowling. The series is distributed by Warner Bros. and consists of eight fantasy films.', 'cover_image' => 'harrypotter.jpg', 'release_date' => '2001-11-16', 'language' => 'EN'],
-            ['title' => 'The Hobbit', 'short_description' => 'The Hobbit', 'long_description' => 'The Hobbit is a film series consisting of three high fantasy adventure films directed by Peter Jackson. They are based on the 1937 novel The Hobbit by J. R. R. Tolkien.', 'cover_image' => 'thehobbit.jpg', 'release_date' => '2012-12-14', 'language' => 'EN'],
-            ['title' => 'Pirates of the Caribbean', 'short_description' => 'Pirates of the Caribbean', 'long_description' => 'Pirates of the Caribbean is a series of fantasy swashbuckler films produced by Jerry Bruckheimer and based on Walt Disney\'s theme park attraction of the same name.', 'cover_image' => 'piratesofthecaribbean.jpg', 'release_date' => '2003-07-09', 'language' => 'EN'],
+            ['title' => 'Star Wars', 'short_description' => 'Star Wars: The Force Awakens', 'long_description' => 'The Force Awakens is a 2015 sci-fi action film directed by George Lucas and written by Doug McKeithan, Hugh Hawking, and Ben Kubrick. It is the sequel to Star Wars: The Empire Strikes Back, and the sequel to Star Wars: The Force Awakens.', 'cover_image' => 'starwars.jpg', 'release_date' => '1998-05-25', 'language' => 'FR', "category" => $categories[1]],
+            ['title' => 'The Matrix', 'short_description' => 'The Matrix', 'long_description' => 'The Matrix is a 1999 science fiction action film written and directed by the Wachowskis, starring Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving, and Joe Pantoliano.', 'cover_image' => 'matrix.jpg', 'release_date' => '1999-03-31', 'language' => 'EN', "category" => $categories[1]],
+            ['title' => 'The Lord of the Rings', 'short_description' => 'The Lord of the Rings', 'long_description' => 'The Lord of the Rings is a film series of three epic fantasy adventure films directed by Peter Jackson, based on the novel written by J. R. R. Tolkien.', 'cover_image' => 'lordoftherings.jpg', 'release_date' => '2001-12-19', 'language' => 'EN', "category" => $categories[2]],
+            ['title' => 'Harry Potter', 'short_description' => 'Harry Potter', 'long_description' => 'Harry Potter is a British-American film series based on the eponymous novels by author J. K. Rowling. The series is distributed by Warner Bros. and consists of eight fantasy films.', 'cover_image' => 'harrypotter.jpg', 'release_date' => '2001-11-16', 'language' => 'EN', "category" => $categories[2]],
+            ['title' => 'The Hobbit', 'short_description' => 'The Hobbit', 'long_description' => 'The Hobbit is a film series consisting of three high fantasy adventure films directed by Peter Jackson. They are based on the 1937 novel The Hobbit by J. R. R. Tolkien.', 'cover_image' => 'thehobbit.jpg', 'release_date' => '2012-12-14', 'language' => 'EN', "category" => $categories[3]],
+            ['title' => 'Pirates of the Caribbean', 'short_description' => 'Pirates of the Caribbean', 'long_description' => 'Pirates of the Caribbean is a series of fantasy swashbuckler films produced by Jerry Bruckheimer and based on Walt Disney\'s theme park attraction of the same name.', 'cover_image' => 'piratesofthecaribbean.jpg', 'release_date' => '2003-07-09', 'language' => 'EN', "category" => $categories[0]],
         ];
         $result = [];
         foreach ($movies as $movieData) {
@@ -108,23 +131,28 @@ class AppFixtures extends Fixture
             $movie->setLongDescription($movieData['long_description']);
             $movie->setCoverImage($movieData['cover_image']);
             $movie->setReleaseDate(new \DateTime($movieData['release_date']));
+            $movie->addCategory($movieData['category']);
+
             $manager->persist($movie);
 
             $result[] = $movie;
         }
+        $manager->flush();
         return $result;
     }
 
     public function getSeries(ObjectManager $manager): array
     {
 
+        $categories = $this->getCategories($manager);
+
         $series = [
-            ['title' => 'Star Wars', 'short_description' => 'Star Wars: The Force Awakens', 'long_description' => 'The Force Awakens is a 2015 sci-fi action film directed by George Lucas and written by Doug McKeithan, Hugh Hawking, and Ben Kubrick. It is the sequel to Star Wars: The Empire Strikes Back, and the sequel to Star Wars: The Force Awakens.', 'cover_image' => 'starwars.jpg', 'release_date' => '1998-05-25', 'language' => 'FR'],
-            ['title' => 'The Matrix', 'short_description' => 'The Matrix', 'long_description' => 'The Matrix is a 1999 science fiction action film written and directed by the Wachowskis, starring Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving, and Joe Pantoliano.', 'cover_image' => 'matrix.jpg', 'release_date' => '1999-03-31', 'language' => 'EN'],
-            ['title' => 'The Lord of the Rings', 'short_description' => 'The Lord of the Rings', 'long_description' => 'The Lord of the Rings is a film series of three epic fantasy adventure films directed by Peter Jackson, based on the novel written by J. R. R. Tolkien.', 'cover_image' => 'lordoftherings.jpg', 'release_date' => '2001-12-19', 'language' => 'EN'],
-            ['title' => 'Harry Potter', 'short_description' => 'Harry Potter', 'long_description' => 'Harry Potter is a British-American film series based on the eponymous novels by author J. K. Rowling. The series is distributed by Warner Bros. and consists of eight fantasy films.', 'cover_image' => 'harrypotter.jpg', 'release_date' => '2001-11-16', 'language' => 'EN'],
-            ['title' => 'The Hobbit', 'short_description' => 'The Hobbit', 'long_description' => 'The Hobbit is a film series consisting of three high fantasy adventure films directed by Peter Jackson. They are based on the 1937 novel The Hobbit by J. R. R. Tolkien.', 'cover_image' => 'thehobbit.jpg', 'release_date' => '2012-12-14', 'language' => 'EN'],
-            ['title' => 'Pirates of the Caribbean', 'short_description' => 'Pirates of the Caribbean', 'long_description' => 'Pirates of the Caribbean is a series of fantasy swashbuckler films produced by Jerry Bruckheimer and based on Walt Disney\'s theme park attraction of the same name.', 'cover_image' => 'piratesofthecaribbean.jpg', 'release_date' => '2003-07-09', 'language' => 'EN'],
+            ['title' => 'Star Wars', 'short_description' => 'Star Wars: The Force Awakens', 'long_description' => 'The Force Awakens is a 2015 sci-fi action film directed by George Lucas and written by Doug McKeithan, Hugh Hawking, and Ben Kubrick. It is the sequel to Star Wars: The Empire Strikes Back, and the sequel to Star Wars: The Force Awakens.', 'cover_image' => 'starwars.jpg', 'release_date' => '1998-05-25', 'language' => 'FR', "category" => $categories[1]],
+            ['title' => 'The Matrix', 'short_description' => 'The Matrix', 'long_description' => 'The Matrix is a 1999 science fiction action film written and directed by the Wachowskis, starring Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving, and Joe Pantoliano.', 'cover_image' => 'matrix.jpg', 'release_date' => '1999-03-31', 'language' => 'EN', "category" => $categories[1]],
+            ['title' => 'The Lord of the Rings', 'short_description' => 'The Lord of the Rings', 'long_description' => 'The Lord of the Rings is a film series of three epic fantasy adventure films directed by Peter Jackson, based on the novel written by J. R. R. Tolkien.', 'cover_image' => 'lordoftherings.jpg', 'release_date' => '2001-12-19', 'language' => 'EN', "category" => $categories[2]],
+            ['title' => 'Harry Potter', 'short_description' => 'Harry Potter', 'long_description' => 'Harry Potter is a British-American film series based on the eponymous novels by author J. K. Rowling. The series is distributed by Warner Bros. and consists of eight fantasy films.', 'cover_image' => 'harrypotter.jpg', 'release_date' => '2001-11-16', 'language' => 'EN', "category" => $categories[2]],
+            ['title' => 'The Hobbit', 'short_description' => 'The Hobbit', 'long_description' => 'The Hobbit is a film series consisting of three high fantasy adventure films directed by Peter Jackson. They are based on the 1937 novel The Hobbit by J. R. R. Tolkien.', 'cover_image' => 'thehobbit.jpg', 'release_date' => '2012-12-14', 'language' => 'EN', "category" => $categories[3]],
+            ['title' => 'Pirates of the Caribbean', 'short_description' => 'Pirates of the Caribbean', 'long_description' => 'Pirates of the Caribbean is a series of fantasy swashbuckler films produced by Jerry Bruckheimer and based on Walt Disney\'s theme park attraction of the same name.', 'cover_image' => 'piratesofthecaribbean.jpg', 'release_date' => '2003-07-09', 'language' => 'EN', "category" => $categories[0]],
         ];
         $result = [];
         foreach ($series as $serieData) {
@@ -134,6 +162,7 @@ class AppFixtures extends Fixture
             $serie->setLongDescription($serieData['long_description']);
             $serie->setCoverImage($serieData['cover_image']);
             $serie->setReleaseDate(new \DateTime($serieData['release_date']));
+            $serie->addCategory($serieData['category']);
             $manager->persist($serie);
 
             for ($j = 0; $j < random_int(1, 5); $j++) {
@@ -154,6 +183,7 @@ class AppFixtures extends Fixture
 
             }
             $result[] = $serie;
+            $manager->flush();
         }
         return $result;
     }
@@ -240,39 +270,38 @@ class AppFixtures extends Fixture
         $users = $this->getUsers($manager);
         $subscriptions = [];
 
-        foreach ($users as $user) {
-            // Abonnement mensuel
-            $monthlySubscription = new Subscription();
-            $monthlySubscription->setName($user . ' - Mensuel');
-            $monthlySubscription->setDuration(1); // 1 mois
-            $monthlySubscription->setPrice(1 * 10); // Prix pour 1 mois
-            $manager->persist($monthlySubscription);
-            $subscriptions[] = $monthlySubscription;
+        // Abonnement mensuel
+        $monthlySubscription = new Subscription();
+        $monthlySubscription->setName('Mensuel');
+        $monthlySubscription->setDuration(1); // 1 mois
+        $monthlySubscription->setPrice(1 * 10); // Prix pour 1 mois
+        $manager->persist($monthlySubscription);
+        $subscriptions[] = $monthlySubscription;
 
-            // Abonnement trimestriel
-            $quarterlySubscription = new Subscription();
-            $quarterlySubscription->setName($user . ' - Trimestriel');
-            $quarterlySubscription->setDuration(3); // 3 mois
-            $quarterlySubscription->setPrice(3 * 10); // Prix pour 3 mois
-            $manager->persist($quarterlySubscription);
-            $subscriptions[] = $quarterlySubscription;
+        // Abonnement trimestriel
+        $quarterlySubscription = new Subscription();
+        $quarterlySubscription->setName('Trimestriel');
+        $quarterlySubscription->setDuration(3); // 3 mois
+        $quarterlySubscription->setPrice(3 * 10); // Prix pour 3 mois
+        $manager->persist($quarterlySubscription);
+        $subscriptions[] = $quarterlySubscription;
 
-            // Abonnement semestriel
-            $semiAnnualSubscription = new Subscription();
-            $semiAnnualSubscription->setName($user . ' - Semestriel');
-            $semiAnnualSubscription->setDuration(6); // 6 mois
-            $semiAnnualSubscription->setPrice(6 * 10); // Prix pour 6 mois
-            $manager->persist($semiAnnualSubscription);
-            $subscriptions[] = $semiAnnualSubscription;
+        // Abonnement semestriel
+        $semiAnnualSubscription = new Subscription();
+        $semiAnnualSubscription->setName('Semestriel');
+        $semiAnnualSubscription->setDuration(6); // 6 mois
+        $semiAnnualSubscription->setPrice(6 * 10); // Prix pour 6 mois
+        $manager->persist($semiAnnualSubscription);
+        $subscriptions[] = $semiAnnualSubscription;
 
-            // Abonnement annuel
-            $annualSubscription = new Subscription();
-            $annualSubscription->setName($user . ' - Annuel');
-            $annualSubscription->setDuration(12); // 12 mois
-            $annualSubscription->setPrice(12 * 10); // Prix pour 12 mois
-            $manager->persist($annualSubscription);
-            $subscriptions[] = $annualSubscription;
-        }
+        // Abonnement annuel
+        $annualSubscription = new Subscription();
+        $annualSubscription->setName('Annuel');
+        $annualSubscription->setDuration(12); // 12 mois
+        $annualSubscription->setPrice(12 * 10); // Prix pour 12 mois
+        $manager->persist($annualSubscription);
+        $subscriptions[] = $annualSubscription;
+
 
         return $subscriptions;
     }
