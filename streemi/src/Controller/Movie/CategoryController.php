@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Movie;
 
+use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,10 +13,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class CategoryController extends AbstractController
 {
     #[Route(path: '/category/{id}', name: 'page_category')]
-    public function category(string $id, CategoryRepository $categoryRepository
+    public function category(Category $category
     ): Response
     {
-        $category = $categoryRepository->find($id);
         return $this->render(view: 'movie/category.html.twig', parameters: [
             'category' => $category,
         ]);
