@@ -19,9 +19,9 @@ class HomeController extends AbstractController
     ) {
 
     }
-    #[Route(path: '/')]
+    #[Route(path: '/', name: "page_homepage")]
     public function home()
     {
-        return $this->render(view: 'auth/login.html.twig');
+        return $this->render(view: 'index.html.twig');
     }
 }

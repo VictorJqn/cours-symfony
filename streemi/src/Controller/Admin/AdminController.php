@@ -9,11 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
-    #[Route(path: '/login', name: 'page_login')]
-    public function login(): Response
-    {
-        return $this->render(view :'auth/login.html.twig');
-    }
+  
 
     #[Route(path: '/admin/add/films', name: 'page_admin_ads_films')]
     public function adminAddFilms(): Response
