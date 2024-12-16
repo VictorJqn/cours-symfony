@@ -18,10 +18,18 @@ use App\Enum\UserAccountStatusEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Category;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class AppFixtures extends Fixture
 {
 
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
     public function load(ObjectManager $manager): void
     {
         $this->getCategories($manager);
@@ -116,12 +124,12 @@ class AppFixtures extends Fixture
         #Create array of 10 movies 
 
         $movies = [
-            ['title' => 'Star Wars', 'short_description' => 'Star Wars: The Force Awakens', 'long_description' => 'The Force Awakens is a 2015 sci-fi action film directed by George Lucas and written by Doug McKeithan, Hugh Hawking, and Ben Kubrick. It is the sequel to Star Wars: The Empire Strikes Back, and the sequel to Star Wars: The Force Awakens.', 'cover_image' => 'https://picsum.photos/id/230/400/550', 'release_date' => '1998-05-25', 'language' => 'FR', "category" => $categories[1]],
-            ['title' => 'The Matrix', 'short_description' => 'The Matrix', 'long_description' => 'The Matrix is a 1999 science fiction action film written and directed by the Wachowskis, starring Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving, and Joe Pantoliano.', 'cover_image' => 'https://picsum.photos/id/231/400/550', 'release_date' => '1999-03-31', 'language' => 'EN', "category" => $categories[1]],
-            ['title' => 'The Lord of the Rings', 'short_description' => 'The Lord of the Rings', 'long_description' => 'The Lord of the Rings is a film series of three epic fantasy adventure films directed by Peter Jackson, based on the novel written by J. R. R. Tolkien.', 'cover_image' => 'https://picsum.photos/id/232/400/550', 'release_date' => '2001-12-19', 'language' => 'EN', "category" => $categories[2]],
-            ['title' => 'Harry Potter', 'short_description' => 'Harry Potter', 'long_description' => 'Harry Potter is a British-American film series based on the eponymous novels by author J. K. Rowling. The series is distributed by Warner Bros. and consists of eight fantasy films.', 'cover_image' => 'https://picsum.photos/id/233/400/550', 'release_date' => '2001-11-16', 'language' => 'EN', "category" => $categories[2]],
-            ['title' => 'The Hobbit', 'short_description' => 'The Hobbit', 'long_description' => 'The Hobbit is a film series consisting of three high fantasy adventure films directed by Peter Jackson. They are based on the 1937 novel The Hobbit by J. R. R. Tolkien.', 'cover_image' => 'https://picsum.photos/id/234/400/550', 'release_date' => '2012-12-14', 'language' => 'EN', "category" => $categories[3]],
-            ['title' => 'Pirates of the Caribbean', 'short_description' => 'Pirates of the Caribbean', 'long_description' => 'Pirates of the Caribbean is a series of fantasy swashbuckler films produced by Jerry Bruckheimer and based on Walt Disney\'s theme park attraction of the same name.', 'cover_image' => 'https://picsum.photos/id/235/400/550', 'release_date' => '2003-07-09', 'language' => 'EN', "category" => $categories[0]],
+            ['title' => 'Star Wars', 'short_description' => 'Star Wars: The Force Awakens', 'duration' => '100', 'long_description' => 'The Force Awakens is a 2015 sci-fi action film directed by George Lucas and written by Doug McKeithan, Hugh Hawking, and Ben Kubrick. It is the sequel to Star Wars: The Empire Strikes Back, and the sequel to Star Wars: The Force Awakens.', 'cover_image' => 'https://picsum.photos/id/230/400/550', 'release_date' => '1998-05-25', 'language' => 'FR', "category" => $categories[1]],
+            ['title' => 'The Matrix', 'short_description' => 'The Matrix', 'duration' => '150', 'long_description' => 'The Matrix is a 1999 science fiction action film written and directed by the Wachowskis, starring Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving, and Joe Pantoliano.', 'cover_image' => 'https://picsum.photos/id/231/400/550', 'release_date' => '1999-03-31', 'language' => 'EN', "category" => $categories[1]],
+            ['title' => 'The Lord of the Rings', 'short_description' => 'The Lord of the Rings', 'duration' => '110', 'long_description' => 'The Lord of the Rings is a film series of three epic fantasy adventure films directed by Peter Jackson, based on the novel written by J. R. R. Tolkien.', 'cover_image' => 'https://picsum.photos/id/232/400/550', 'release_date' => '2001-12-19', 'language' => 'EN', "category" => $categories[2]],
+            ['title' => 'Harry Potter', 'short_description' => 'Harry Potter', 'duration' => '124', 'long_description' => 'Harry Potter is a British-American film series based on the eponymous novels by author J. K. Rowling. The series is distributed by Warner Bros. and consists of eight fantasy films.', 'cover_image' => 'https://picsum.photos/id/233/400/550', 'release_date' => '2001-11-16', 'language' => 'EN', "category" => $categories[2]],
+            ['title' => 'The Hobbit', 'short_description' => 'The Hobbit', 'duration' => '139', 'long_description' => 'The Hobbit is a film series consisting of three high fantasy adventure films directed by Peter Jackson. They are based on the 1937 novel The Hobbit by J. R. R. Tolkien.', 'cover_image' => 'https://picsum.photos/id/234/400/550', 'release_date' => '2012-12-14', 'language' => 'EN', "category" => $categories[3]],
+            ['title' => 'Pirates of the Caribbean', 'short_description' => 'Pirates of the Caribbean', 'duration' => '95', 'long_description' => 'Pirates of the Caribbean is a series of fantasy swashbuckler films produced by Jerry Bruckheimer and based on Walt Disney\'s theme park attraction of the same name.', 'cover_image' => 'https://picsum.photos/id/235/400/550', 'release_date' => '2003-07-09', 'language' => 'EN', "category" => $categories[0]],
         ];
         $result = [];
         foreach ($movies as $movieData) {
@@ -129,6 +137,7 @@ class AppFixtures extends Fixture
             $movie->setTitle($movieData['title']);
             $movie->setShortDescription($movieData['short_description']);
             $movie->setLongDescription($movieData['long_description']);
+            $movie->setDuration($movieData['duration']);
             $movie->setCoverImage($movieData['cover_image']);
             $movie->setReleaseDate(new \DateTime($movieData['release_date']));
             $movie->addCategory($movieData['category']);
@@ -208,9 +217,10 @@ class AppFixtures extends Fixture
             $user->setEmail($username . '@example.com');
 
             // Utilisez un encodeur de mot de passe si nécessaire
-            $plainPassword = 'password123';
+            $hashedPassword = $this->passwordHasher->hashPassword($user, 'password123');
             // Exemple : $encodedPassword = $encoder->encodePassword($user, $plainPassword);
-            $user->setPassword($plainPassword);
+            $user->setPassword($hashedPassword);
+            $user->setRoles(['ROLE_USER']);
 
             // Assigner un statut de compte de façon cyclique
             $user->setAccountStatus($statuses[$key % count($statuses)]);
@@ -275,6 +285,7 @@ class AppFixtures extends Fixture
         $monthlySubscription->setName('Mensuel');
         $monthlySubscription->setDuration(1); // 1 mois
         $monthlySubscription->setPrice(1 * 10); // Prix pour 1 mois
+        $monthlySubscription->setDescription('Abonnement de courte durée');
         $manager->persist($monthlySubscription);
         $subscriptions[] = $monthlySubscription;
 
@@ -283,6 +294,8 @@ class AppFixtures extends Fixture
         $quarterlySubscription->setName('Trimestriel');
         $quarterlySubscription->setDuration(3); // 3 mois
         $quarterlySubscription->setPrice(3 * 10); // Prix pour 3 mois
+        $quarterlySubscription->setDescription('Abonnement de durée de 3 mois');
+
         $manager->persist($quarterlySubscription);
         $subscriptions[] = $quarterlySubscription;
 
@@ -291,6 +304,7 @@ class AppFixtures extends Fixture
         $semiAnnualSubscription->setName('Semestriel');
         $semiAnnualSubscription->setDuration(6); // 6 mois
         $semiAnnualSubscription->setPrice(6 * 10); // Prix pour 6 mois
+        $semiAnnualSubscription->setDescription('Abonnement de durée de 6 mois');
         $manager->persist($semiAnnualSubscription);
         $subscriptions[] = $semiAnnualSubscription;
 
@@ -299,6 +313,8 @@ class AppFixtures extends Fixture
         $annualSubscription->setName('Annuel');
         $annualSubscription->setDuration(12); // 12 mois
         $annualSubscription->setPrice(12 * 10); // Prix pour 12 mois
+        $annualSubscription->setDescription('Abonnement de durée de 1 an ( plus long )');
+
         $manager->persist($annualSubscription);
         $subscriptions[] = $annualSubscription;
 

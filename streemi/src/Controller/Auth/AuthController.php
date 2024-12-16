@@ -10,11 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AuthController extends AbstractController
 {
-    #[Route(path: '/login', name: 'page_login')]
-    public function login(): Response
-    {
-        return $this->render(view :'auth/login.html.twig');
-    }
+    
 
     #[Route(path: '/register', name: 'page_register')]
     public function register(): Response

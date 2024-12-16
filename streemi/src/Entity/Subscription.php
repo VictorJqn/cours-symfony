@@ -36,6 +36,9 @@ class Subscription
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'currentSubscription')]
     private Collection $users;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->subscriptionHistories = new ArrayCollection();
@@ -139,6 +142,18 @@ class Subscription
                 $user->setCurrentSubscription(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $discription): static
+    {
+        $this->description = $discription;
 
         return $this;
     }
