@@ -5,16 +5,29 @@ App\Entity\Media:
     longDescription: '<realText()>'
     releaseDate: '<datetime()>'
     coverImage: 'https://picsum.photos/400/550?random=<numberBetween(1, 100)>'
+    categories:
+      - '@category_action'
+      - '@category_aventure'
+      - '@category_comedie'
+      - '@category_drame'
+      - '@category_horreur'
 
 App\Entity\Movie:
   media_movie_{1..50} (extends media):
     title: 'Movie <current()>'
     duration: '<numberBetween(45, 180)>'
+    categories:
+      - '@category_action'  # Exemple d'affectation manuelle
+      - '@category_aventure'  # Vous pouvez ajuster cela
+      - '@category_comedie'
 
 App\Entity\Serie:
   media_serie_{1..50} (extends media):
     title: 'Serie <current()>'
-
+    categories:
+      - '@category_aventure'  # Exemple d'affectation manuelle
+      - '@category_drame'
+      - '@category_horreur'
 
 App\Entity\Season:
   season_1_{@media_serie*}:
@@ -33,7 +46,6 @@ App\Entity\Episode:
     duration: '<numberBetween(45, 90)>'
     releaseDate: '<datetime()>'
     season: '@season_*'
-
 
 App\Entity\WatchHistory:
     watch_history_{1..500}:

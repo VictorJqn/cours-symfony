@@ -28,6 +28,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    private string $plainPassword = '';
+
+
     #[ORM\Column(enumType: UserAccountStatusEnum::class)]
     private ?UserAccountStatusEnum $accountStatus = null;
 
@@ -214,7 +217,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // Suppression des données sensibles après l'authentification (si nécessaire)
+        $this->plainPassword = '';
     }
 
     public function getAccountStatus(): ?UserAccountStatusEnum
@@ -259,5 +262,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->resetTokenExpireAt = $resetTokenExpireAt;
 
         return $this;
+    } 
+    
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
     }
 }
