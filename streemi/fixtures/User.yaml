@@ -5,6 +5,12 @@ App\Entity\User:
     accountStatus: "valid"
     roles: [ "ROLE_USER" ]
     username: "user1"
+  user_3:
+    email: "test@gmail.com"
+    password: 'password123'
+    accountStatus: "valid"
+    roles: [ "ROLE_USER" ]
+    username: "victor"
   user_2:
     email: "admin@example.com"
     password: 'admin123'
