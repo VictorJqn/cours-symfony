@@ -1,0 +1,9 @@
+App\Entity\Subscription:
+  subscription_1:
+    name: "monthly"
+    price: 9.99
+    duration: 1
+  subscription_2:
+    name: "annual"
+    price: 99.99
+    duration: 12

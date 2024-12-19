@@ -20,9 +20,9 @@ class WatchHistory
     #[ORM\Column]
     private ?int $numberOfViews = null;
 
-    #[ORM\ManyToOne(inversedBy: 'watchHistories')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $player = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'watchHistories')]
+    private ?User $watcher = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'watchHistories')]
     #[ORM\JoinColumn(nullable: false)]
@@ -57,14 +57,14 @@ class WatchHistory
         return $this;
     }
 
-    public function getPlayer(): ?User
+    public function getWatcher(): ?User
     {
-        return $this->player;
+        return $this->watcher;
     }
 
-    public function setPlayer(?User $player): static
+    public function setWatcher(?User $watcher): static
     {
-        $this->player = $player;
+        $this->watcher = $watcher;
 
         return $this;
     }

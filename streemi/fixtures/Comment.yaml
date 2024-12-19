@@ -1,0 +1,6 @@
+App\Entity\Comment:
+  comment_1:
+    content: "This is a great movie!"
+    status: "valid"
+    author: "@user_*"
+    media: "@media_*"

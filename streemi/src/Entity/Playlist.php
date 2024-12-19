@@ -18,12 +18,6 @@ class Playlist
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
-
     #[ORM\ManyToOne(inversedBy: 'playlists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $creator = null;

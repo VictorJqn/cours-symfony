@@ -13,7 +13,7 @@
         "doctrine/orm": "^3.2",
         "symfony/console": "7.1.*",
         "symfony/dotenv": "7.1.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "^2.4",
         "symfony/framework-bundle": "7.1.*",
         "symfony/mailer": "7.1.*",
         "symfony/monolog-bundle": "^3.0",
@@ -74,6 +74,8 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.6",
+        "hautelook/alice-bundle": "^2.14",
+        "nelmio/alice": "^3.13",
         "symfony/debug-bundle": "7.1.*",
         "symfony/maker-bundle": "^1.61",
         "symfony/stopwatch": "7.1.*",

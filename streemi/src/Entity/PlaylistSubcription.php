@@ -20,8 +20,7 @@ class PlaylistSubcription
     #[ORM\JoinColumn(nullable: false)]
     private ?Playlist $playlist = null;
 
-    #[ORM\ManyToOne(inversedBy: 'playlistSubcriptions')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'playlistSubscriptions')]
     private ?User $subscriber = null;
 
     public function getId(): ?int

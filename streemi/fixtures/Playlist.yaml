@@ -1,0 +1,5 @@
+App\Entity\Playlist:
+  playlist_1:
+    name: "My Favorite Movies"
+    createdAt: <(new \DateTime('now'))>
+    creator : '@user_*'

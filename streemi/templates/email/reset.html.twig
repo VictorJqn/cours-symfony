@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Réinitialisation de mot de passe</title>
-</head>
-<body>
-    <h1>Réinitialisation de votre mot de passe</h1>
-    <p>Bonjour,</p>
-    <p>Nous avons reçu une demande de réinitialisation de votre mot de passe.</p>
-    <p>Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant :</p>
-    <p><a href="{{ resetUrl }}">Réinitialiser mon mot de passe</a></p>
-    <p>Ce lien expire dans une heure.</p>
-    <p>Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.</p>
-</body>
-</html>
+<p>Bonjour,</p>
+<p>Vous avez demandé à réinitialiser votre mot de passe. Cliquez sur le lien ci-dessous pour continuer :</p>
+<p>
+    <a href="{{ resetUrl }}">Réinitialiser mon mot de passe</a>
+</p>
+<p>Si vous n'avez pas fait cette demande, ignorez cet email.</p>
+<p>Cet email a été envoyé à : {{ userEmail }}</p>

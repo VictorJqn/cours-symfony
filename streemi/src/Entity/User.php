@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -35,10 +34,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Subscription $currentSubscription = null;
 
-    /**
-     * @var Collection<int, Comment>
-     */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'publisher')]
+    // Correction de la relation avec Comment : 'author' => 'publisher'
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
     private Collection $comments;
 
     #[ORM\Column(length: 255)]
@@ -47,27 +44,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Playlist>
      */
-    #[ORM\OneToMany(targetEntity: Playlist::class, mappedBy: 'creator')]
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Playlist::class)]
     private Collection $playlists;
 
-    /**
-     * @var Collection<int, PlaylistSubcription>
-     */
-    #[ORM\OneToMany(targetEntity: PlaylistSubcription::class, mappedBy: 'subscriber')]
+    // Correction de l'association PlaylistSubscription
+    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: PlaylistSubcription::class)]
     private Collection $playlistSubscriptions;
 
     /**
      * @var Collection<int, SubscriptionHistory>
      */
-    #[ORM\OneToMany(targetEntity: SubscriptionHistory::class, mappedBy: 'subscriber')]
+    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: SubscriptionHistory::class)]
     private Collection $subscriptionHistories;
 
     /**
      * @var Collection<int, WatchHistory>
      */
-    #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'watcher')]
+    #[ORM\OneToMany(mappedBy: 'watcher', targetEntity: WatchHistory::class)]
     private Collection $watchHistories;
-
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
@@ -78,12 +72,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $resetTokenExpireAt = null;
 
-    
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->playlists = new ArrayCollection();
-        $this->playlistSubcriptions = new ArrayCollection();
+        $this->playlistSubscriptions = new ArrayCollection();
         $this->subscriptionHistories = new ArrayCollection();
         $this->watchHistories = new ArrayCollection();
     }
@@ -128,7 +121,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-      /**
+
+    /**
      * @return Collection<int, Playlist>
      */
     public function getPlaylists(): Collection
@@ -149,7 +143,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, PlaylistSubcription>
      */
-    public function getPlaylistSubcriptions(): Collection
+    public function getPlaylistSubscriptions(): Collection
     {
         return $this->playlistSubscriptions;
     }
@@ -201,8 +195,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-
 
     public function getRoles(): array
     {
